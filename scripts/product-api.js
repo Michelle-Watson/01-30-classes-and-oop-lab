@@ -11,4 +11,23 @@ class ProductApi {
     // Got url from:
     this.baseURL = "https://bstn-api-lab-f060f124aa11.herokuapp.com";
   }
+
+  ////////////// Part 2: Create the Get Products functionality - Slide 19
+  // P2-Q1. In product-api.js, create a getProducts method within the ProductApi class:
+  // - P2-Q1-req1. Create an async method called getProducts that accepts no parameters and uses Axios to send a GET request to the /products endpoint of the provided Product API
+  //      -- P2-Q1-req1-note. Remember to append the API key instance property (e.g. this.apiKey) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.
+  //      -- P2-Q1-note. Note: your HTML file includes the Axios script before product-api.js so the axios instance is available to your code in product-api.js.
+  // - P2-Q1-req2. The getProducts method should await the request and return the products array from the response (Recall where the data stored in an Axios response object).
+
+  async getProducts() {
+    try {
+      // From Oct 11 LEC
+      const responses = await axios.get(
+        `${this.baseURL}/products?api_key=${this.apiKey}`
+      );
+      return responses.data;
+    } catch (error) {
+      console.log("error with getProducts!");
+    }
+  }
 }
