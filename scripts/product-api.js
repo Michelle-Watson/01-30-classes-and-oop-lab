@@ -67,6 +67,19 @@ class ProductApi {
   }
 
   // PUT /products/:id
+  // Update an existing product (replace all fields)
+  async updateProduct(productId, updatedProduct) {
+    try {
+      const response = await axios.put(
+        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`,
+        updatedProduct
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error with updateProduct!");
+    }
+  }
+
   // PATCH /products/:id
   // DELETE /products/:id
 }

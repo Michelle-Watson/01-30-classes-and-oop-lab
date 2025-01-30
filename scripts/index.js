@@ -33,12 +33,22 @@ async function testApiCalls() {
     const newProducts = await productApi.addProduct(book);
     console.log("Added product:", newProducts);
 
-    // Test GET getProductById
-    const productsByID = await productApi.getProductById(
-      "d56cfbe3-18d7-4892-bace-67a02c654ba5"
-      // got the ID by checking the ID of the book we just added
+    // Test GET getProductById (using the ID of the product we just added)
+    const productId = newProducts.id; // use the ID from the newly added product
+    const productById = await productApi.getProductById(productId);
+    console.log("productApi.getProductById()", productById);
+
+    // Test PUT updateProduct (update the product's name and price)
+    const updatedProduct = {
+      name: "Updated Book",
+      price: 29.99,
+      category: "Entertainment",
+    };
+    const updatedProductResult = await productApi.updateProduct(
+      productId,
+      updatedProduct
     );
-    console.log("getProductById()", productsByID);
+    console.log("productApi.updateProduct()", updatedProductResult);
   } catch (error) {
     console.log("error with getProducts and addProduct!", error);
     // Access to XMLHttpRequest at 'https://bstn-api-lab-f060f124aa11.herokuapp.com/?apiKey=c3d5a444-ce56-4c94-88b1-cc5687c101c3' from origin 'http://127.0.0.1:5501' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
