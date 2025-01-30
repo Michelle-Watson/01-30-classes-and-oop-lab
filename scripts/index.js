@@ -56,6 +56,14 @@ async function testApiCalls() {
     };
     const patchedProduct = await productApi.patchProduct(productId, patchData);
     console.log("productApi.patchProduct()", patchedProduct);
+
+    // Test DELETE deleteProduct (delete the product by its ID)
+    const deleteResponse = await productApi.deleteProduct(productId);
+    console.log("productApi.deleteProduct() Response:", deleteResponse);
+
+    // Verify that the product was deleted by trying to fetch it again
+    const deletedProduct = await productApi.getProductById(productId);
+    console.log("productApi.getProductById() after delete:", deletedProduct);
   } catch (error) {
     console.log("error with getProducts and addProduct!", error);
     // Access to XMLHttpRequest at 'https://bstn-api-lab-f060f124aa11.herokuapp.com/?apiKey=c3d5a444-ce56-4c94-88b1-cc5687c101c3' from origin 'http://127.0.0.1:5501' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.

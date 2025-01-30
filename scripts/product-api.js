@@ -96,4 +96,17 @@ class ProductApi {
   }
 
   // DELETE /products/:id
+  // Delete a product by ID
+  async deleteProduct(productId) {
+    try {
+      const response = await axios.delete(
+        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`
+      );
+      return response.status === 204
+        ? "Product deleted successfully"
+        : "Failed to delete product";
+    } catch (error) {
+      console.log("Error with deleteProduct!");
+    }
+  }
 }
