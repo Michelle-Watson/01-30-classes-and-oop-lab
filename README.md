@@ -1,305 +1,300 @@
 # Lab: Classes & Object-Oriented Programming
 
-<article><div class="markdown--TOg2r body--vb2Ya"><h2>Overview</h2>
-<p>In this lab we are going to get some practice with JavaScript classes by creating a class to communicate with a Products API (<a href="https://bstn-api-lab-f060f124aa11.herokuapp.com/" target="_blank" rel="noopener noreferrer">documented here</a>).</p>
-<ul>
-<li>
-<p>HTTP-based Web APIs are developed, documented, and shared to allow programmers to make use of their functionality in any programming language.</p>
-</li>
-<li>
-<p>Language-specific API wrappers are commonly created to further abstract those HTTP-based APIs in order to provide code in a specific programming language, such as JavaScript.</p>
-</li>
-</ul>
-<p>Our goal in this lab is to create a JavaScript API that other developers could use to access the Products API without having to think about the underlying web requests.</p>
-<h2>Getting Started</h2>
-<p>To get started, please <a href="https://api.brainstation.io/content/link/10qwHKVBKda_TGkrltze2udFMli65t4Od?instanceId=7382" target="_blank" rel="noopener noreferrer">download the starter code</a>.</p>
-<h2>Instructions</h2>
-<h3>Part 1: Create and Validate the API Wrapper Class</h3>
-<ol>
-<li>In <code>product-api.js</code>, declare a class called <code>ProductApi</code></li>
-</ol>
-<ul>
-<li>Create a <code>constructor</code> method that accepts an API key as its only parameter (e.g. <code>apiKey</code>). <em>Note: The API key will be used when making requests to the API (see <code>addProduct</code> and <code>getProducts</code> methods).</em></li>
-<li>You must store the API key parameter (e.g. <code>apiKey</code>) in an instance property (e.g. <code>this.apiKey</code>).</li>
-<li>You must also store the Product API's base URL in an instance property (e.g. <code>this.baseUrl</code>). <em>Note: this will be set to a hard coded string as it will not be passed to the <code>constructor</code> as a parameter</em></li>
-</ul>
-<ol start="2">
-<li>In <code>index.js</code>, create a variable called <code>API_KEY</code> that will store an API Key as a string.</li>
-</ol>
-<ul>
-<li>Register an API key by calling the <code>/register</code> endpoint from the browser or postman.</li>
-<li>Copy the API key returned from the call to <code>/register</code> and assign it to the <code>API_KEY</code> variable.</li>
-</ul>
-<ol start="3">
-<li>In <code>index.js</code> create an instance of the <code>ProductApi</code> class and assign it to a variable called <code>productApi</code>.</li>
-</ol>
-<ul>
-<li>Make sure to pass the <code>API_KEY</code> variable to the constructor.</li>
-<li>Validate the newly created instance of <code>ProductApi</code> by logging  the <code>productApi</code> variable to the console.</li>
-<li><em>Note: your HTML file includes the <code>product-api.js</code> script before <code>index.js</code> so the <code>ProductApi</code> class is available to your code in <code>index.js</code>.</em></li>
-</ul>
-<h3>Part 2: Create the Get Products functionality</h3>
-<ol>
-<li>In <code>product-api.js</code>, create a <code>getProducts</code> method within the <code>ProductApi</code> class:</li>
-</ol>
-<ul>
-<li>Create an <code>async</code> method called <code>getProducts</code> that accepts no parameters and uses Axios to send a GET request to the <code>/products</code> endpoint of the provided Product API
-<ul>
-<li>Remember to append the API key instance property (e.g. <code>this.apiKey</code>) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.</li>
-<li><em>Note: your HTML file includes the Axios script before <code>product-api.js</code> so the <code>axios</code> instance is available to your code in <code>product-api.js</code>.</em></li>
-</ul>
-</li>
-<li>The <code>getProducts</code> method should <code>await</code> the request and return the products array from the response (Recall where the data stored in an Axios response object).</li>
-</ul>
-<ol start="2">
-<li>In <code>index.js</code> create an <code>async</code> function called <code>testApiCalls</code> to be used to test the <code>getProducts</code> method. Inside this function:</li>
-</ol>
-<ul>
-<li>Add a <code>try...catch</code> statement so that you can catch any errors from the API request.</li>
-<li>Within the <code>try</code> block, call <code>await productApi.getProducts()</code> to retrieve the list of products, storing the result in a variable called <code>products</code> <em>Note: Since <code>getProducts</code> is an <code>async</code> method, you must <code>await</code> this method call.</em></li>
-<li>Also within the <code>try</code> block, validate the products were retrieved successfully by logging the <code>products</code> variable to the console.</li>
-<li>Within the <code>catch</code> block, log any errors from the API request using <code>console.error</code></li>
-</ul>
-<ol start="3">
-<li>Call the <code>testApiCalls</code> function to test the <code>getProducts</code> method is working correctly.</li>
-</ol>
-<ul>
-<li>Determine if the <code>getProducts</code> method returns what you expect.  If not, try to investigate where things could be going wrong and remember to ask for help if you get stuck.</li>
-</ul>
-<h3>Part 3: Create the Add Product functionality</h3>
-<ol>
-<li>In <code>product-api.js</code>, create a <code>addProduct</code> method within the <code>ProductApi</code> class:</li>
-</ol>
-<ul>
-<li>Create an <code>async</code> method called <code>addProduct</code> that accepts a product object as its only parameter and sends a POST request with the product object to the <code>/products</code> endpoint of the provided Product API
-<ul>
-<li>Remember to append the API key instance property (e.g. <code>this.apiKey</code>) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.</li>
-</ul>
-</li>
-<li>The <code>addProduct</code> method should <code>await</code> the request and return the newly created product from the response.</li>
-</ul>
-<ol start="2">
-<li>In <code>index.js</code> update the <code>testApiCalls</code> function body to test the <code>addProduct</code> method:</li>
-</ol>
-<ul>
-<li>
-<p>Add a new <code>try...catch</code> statement so that you can catch any errors from the API request.</p>
-</li>
-<li>
-<p>Within the new <code>try</code> block, call <code>await productApi.addProduct(&lt;new_product_object&gt;)</code> to add a product to the list of products.</p>
-<ul>
-<li>See the API documentation for the object structure to follow for the new product object.</li>
-</ul>
-</li>
-<li>
-<p>Also within the new <code>try</code> block, verify the product has been added:</p>
-<ul>
-<li>Call <code>await productApi.getProducts()</code> after the <code>addProduct</code> call to retrieve the updated list of products, storing the result in a variable called <code>newProducts</code></li>
-<li>Validate the products were retrieved successfully by logging to the console the <code>newProducts</code> variable</li>
-<li>Compare the <code>products</code> and <code>newProducts</code> variables in the console, noting the <code>newProducts</code> variable has the newly created product</li>
-</ul>
-</li>
-<li>
-<p>Within the <code>catch</code> block, log any errors from the API request using <code>console.error</code></p>
-</li>
-</ul>
-<h3>Diving Deeper</h3>
-<ol>
-<li>Continue adding methods to the <code>ProductApi</code> class for the following API endpoints, testing each method as you create them:</li>
-</ol>
-<ul>
-<li><code>GET /products/:id</code></li>
-<li><code>PUT /products/:id</code></li>
-<li><code>PATCH /products/:id</code></li>
-<li><code>DELETE /products/:id</code></li>
-</ul>
-<h2>Resources</h2>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes" target="_blank" rel="noopener noreferrer">MDN: JavaScript Classes</a></li>
-<li><a href="https://axios-http.com/docs/api_intro" target="_blank" rel="noopener noreferrer">Axios Documentation</a></li>
-</ul>
-</div></article>
+## Overview
 
-<body class="vsc-initialized">
-  <h2>Product API Documentation</h2>
-  <section>
-    <h2>Overview</h2>
-    <ul>
-      <li>The url for the API is <code>https://bstn-api-lab-f060f124aa11.herokuapp.com/</code></li>
-      <li>On the <code>/products</code> route, the products array contains three default products</li>
-      <li><strong>Note:</strong> This API has a temporary memory. Occasionally the API will reset removing all stored
-        products (except for the three default products)</li>
-    </ul>
-    <hr>
-    <h2>Authentication</h2>
-    <ul>
-      <li>To register with the API and get a key, make a GET request to <code>/register</code>
-        <ul>
-          <li>You can do this with the browser and you only need to do it once. Store the key in a global variable in
-            your
-            website.</li>
-        </ul>
-      </li>
-      <li>You must append <code>?api_key=&lt;your_api_key_here&gt;</code> to each of your API request URLs (except for
-        <code>/register</code>)
-      </li>
-    </ul>
-  </section>
-  <section>
-    <h2>Routes</h2>
-    <h3><code>GET /register</code></h3>
-    <ul>
-      <li>Returns an object containing a unique API key</li>
-    </ul>
-    <h4>Response Body Example</h4>
-    <pre><code class="lang-json">  {
-      <span class="hljs-attr">"api_key"</span>: <span class="hljs-string">"e0eea5f0-0f8c-4b54-9fc4-ff50843766d4"</span>
+In this lab, we are going to get some practice with JavaScript classes by creating a class to communicate with a Products API (documented [here](https://bstn-api-lab-f060f124aa11.herokuapp.com/)).
+
+- HTTP-based Web APIs are developed, documented, and shared to allow programmers to make use of their functionality in any programming language.
+- Language-specific API wrappers are commonly created to further abstract those HTTP-based APIs in order to provide code in a specific programming language, such as JavaScript.
+
+Our goal in this lab is to create a JavaScript API that other developers could use to access the Products API without having to think about the underlying web requests.
+
+## Getting Started
+
+To get started, please [download the starter code](./starter/).
+
+## Instructions
+
+### Part 1: Create and Validate the API Wrapper Class
+
+1. In `product-api.js`, declare a class called `ProductApi`.
+
+- Create a `constructor` method that accepts an API key as its only parameter (e.g. `apiKey`).
+  _Note: The API key will be used when making requests to the API (see `addProduct` and `getProducts` methods)._
+
+- You must store the API key parameter (e.g. `apiKey`) in an instance property (e.g. `this.apiKey`).
+- You must also store the Product API's base URL in an instance property (e.g. `this.baseUrl`).
+  _Note: this will be set to a hardcoded string as it will not be passed to the `constructor` as a parameter._
+
+2. In `index.js`, create a variable called `API_KEY` that will store an API Key as a string.
+
+- Register an API key by calling the `/register` endpoint from the browser or postman.
+- Copy the API key returned from the call to `/register` and assign it to the `API_KEY` variable.
+
+3. In `index.js`, create an instance of the `ProductApi` class and assign it to a variable called `productApi`.
+
+- Make sure to pass the `API_KEY` variable to the constructor.
+- Validate the newly created instance of `ProductApi` by logging the `productApi` variable to the console.
+  _Note: your HTML file includes the `product-api.js` script before `index.js` so the `ProductApi` class is available to your code in `index.js`._
+
+### Part 2: Create the Get Products functionality
+
+1. In `product-api.js`, create a `getProducts` method within the `ProductApi` class:
+
+- Create an `async` method called `getProducts` that accepts no parameters and uses Axios to send a GET request to the `/products` endpoint of the provided Product API.
+
+  - Remember to append the API key instance property (e.g. `this.apiKey`) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.
+    _Note: your HTML file includes the Axios script before `product-api.js` so the `axios` instance is available to your code in `product-api.js`._
+
+- The `getProducts` method should `await` the request and return the products array from the response (Recall where the data is stored in an Axios response object).
+
+2. In `index.js`, create an `async` function called `testApiCalls` to be used to test the `getProducts` method. Inside this function:
+
+- Add a `try...catch` statement so that you can catch any errors from the API request.
+- Within the `try` block, call `await productApi.getProducts()` to retrieve the list of products, storing the result in a variable called `products`.
+  _Note: Since `getProducts` is an `async` method, you must `await` this method call._
+- Also within the `try` block, validate the products were retrieved successfully by logging the `products` variable to the console.
+- Within the `catch` block, log any errors from the API request using `console.error`.
+
+3. Call the `testApiCalls` function to test that the `getProducts` method is working correctly.
+
+- Determine if the `getProducts` method returns what you expect. If not, try to investigate where things could be going wrong and remember to ask for help if you get stuck.
+
+### Part 3: Create the Add Product functionality
+
+1. In `product-api.js`, create an `addProduct` method within the `ProductApi` class:
+
+- Create an `async` method called `addProduct` that accepts a product object as its only parameter and sends a POST request with the product object to the `/products` endpoint of the provided Product API.
+
+  - Remember to append the API key instance property (e.g. `this.apiKey`) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.
+
+- The `addProduct` method should `await` the request and return the newly created product from the response.
+
+2. In `index.js`, update the `testApiCalls` function body to test the `addProduct` method:
+
+- Add a new `try...catch` statement so that you can catch any errors from the API request.
+- Within the new `try` block, call `await productApi.addProduct(<new_product_object>)` to add a product to the list of products.
+  - See the API documentation for the object structure to follow for the new product object.
+- Also within the new `try` block, verify the product has been added:
+  - Call `await productApi.getProducts()` after the `addProduct` call to retrieve the updated list of products, storing the result in a variable called `newProducts`.
+  - Validate the products were retrieved successfully by logging to the console the `newProducts` variable.
+  - Compare the `products` and `newProducts` variables in the console, noting that the `newProducts` variable has the newly created product.
+- Within the `catch` block, log any errors from the API request using `console.error`.
+
+### Diving Deeper
+
+Continue adding methods to the `ProductApi` class for the following API endpoints, testing each method as you create them:
+
+- `GET /products/:id`
+- `PUT /products/:id`
+- `PATCH /products/:id`
+- `DELETE /products/:id`
+
+## Resources
+
+- [MDN: JavaScript Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [Axios Documentation](https://axios-http.com/docs/api_intro)
+
+---
+
+# Product API Documentation
+
+## Overview
+
+- The url for the API is `https://bstn-api-lab-f060f124aa11.herokuapp.com/`
+- On the `/products` route, the products array contains three default products
+- **Note:** This API has a temporary memory. Occasionally the API will reset removing all stored products (except for the three default products)
+- Documentation was converted from [html](https://bstn-api-lab-f060f124aa11.herokuapp.com/) to markdown using https://htmlmarkdown.com/
+
+---
+
+## Authentication
+
+- To register with the API and get a key, make a GET request to `/register`
+  - You can do this with the browser and you only need to do it once. Store the key in a global variable in your website.
+- You must append `?api_key=<your_api_key_here>` to each of your API request URLs (except for `/register`)
+
+## Routes
+
+### `GET /register`
+
+- Returns an object containing a unique API key
+
+#### Response Body Example
+
+```
+  {
+      "api_key": "e0eea5f0-0f8c-4b54-9fc4-ff50843766d4"
   }
-  </code></pre>
-    <hr>
-    <h3><code>GET /products</code></h3>
-    <ul>
-      <li>Returns an array of products</li>
-      <li>Products may be regularly cleared by the server</li>
-    </ul>
-    <h4>Response Body Example</h4>
-    <pre><code class="lang-json">  [
+
+```
+
+---
+
+### `GET /products`
+
+- Returns an array of products
+- Products may be regularly cleared by the server
+
+#### Response Body Example
+
+```
+  [
     {
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Smartphone"</span>,
-      <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Electronics"</span>,
-      <span class="hljs-attr">"price"</span>: <span class="hljs-string">599.99</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">"3d3b63fa-a78d-468a-a50f-57429984dd99"</span>,
+      "name": "Smartphone",
+      "category": "Electronics",
+      "price": 599.99,
+      "id": "3d3b63fa-a78d-468a-a50f-57429984dd99",
     }
-  ]</code></pre>
+  ]
+```
 
-  <hr>
-    <h3><code>GET /products/:id</code></h3>
-    <ul>
-      <li>
-        Returns a single product specified by <code>:id</code>
-        <ul><li>Swap <code>:id</code> for the id of the product you want to retrieve</li></ul>
-      </li>
-      <li>Will return a 200 status code if successful, along with the <code>product</code> JSON object</li>
-      <li>Will return a 404 error code if the product is not found</li>
-      <li>Example: <code>/products/3d3b63fa-a78d-468a-a50f-57429984dd99</code></li>
-    </ul>
-    <h4>Response Body Example</h4>
-    <pre><code class="lang-json">  [
+---
+
+### `GET /products/:id`
+
+- Returns a single product specified by `:id`
+  - Swap `:id` for the id of the product you want to retrieve
+- Will return a 200 status code if successful, along with the `product` JSON object
+- Will return a 404 error code if the product is not found
+- Example: `/products/3d3b63fa-a78d-468a-a50f-57429984dd99`
+
+#### Response Body Example
+
+```
+  [
     {
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Smartphone"</span>,
-      <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Electronics"</span>,
-      <span class="hljs-attr">"price"</span>: <span class="hljs-string">599.99</span>,
-      <span class="hljs-attr">"id"</span>: <span class="hljs-number">"3d3b63fa-a78d-468a-a50f-57429984dd99"</span>,
+      "name": "Smartphone",
+      "category": "Electronics",
+      "price": 599.99,
+      "id": "3d3b63fa-a78d-468a-a50f-57429984dd99",
     }
-  ]</code></pre>
+  ]
+```
 
-    <hr>
-    <h3><code>POST /products</code></h3>
-    <ul>
-      <li>Creates a new product</li>
-      <li>Will return a 201 status code if successful, along with the <code>product</code> JSON object that was created</li>
-      <li>Will return a 400 error code if <code>name</code>, <code>price</code>, or <code>category</code> are not included</li>
-    </ul>
-    <h4>Required Request Headers</h4>
-    <p><code>Content-Type: application/json</code></p>
-    <h4>POST Body Example</h4>
-    <pre><code class="lang-json">  {
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Book"</span>,
-    <span class="hljs-attr">"price"</span>: <span class="hljs-string">14.99</span>,
-    <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Entertainment"</span>
+---
 
-}
-</code></pre>
+### `POST /products`
 
-<h4>Response Body Example</h4>
-<pre><code class="lang-json"> {
-<span class="hljs-attr">"name"</span>: <span class="hljs-string">"Book"</span>,
-<span class="hljs-attr">"price"</span>: <span class="hljs-string">14.99</span>,
-<span class="hljs-attr">"category"</span>: <span class="hljs-string">"Entertainment"</span>,
-<span class="hljs-attr">"id"</span>: <span class="hljs-number">"3d3b63fa-a78d-468a-a50f-57429984dd99"</span>
-}
-</code></pre>
+- Creates a new product
+- Will return a 201 status code if successful, along with the `product` JSON object that was created
+- Will return a 400 error code if `name`, `price`, or `category` are not included
 
-  <hr>
-    <h3><code>PATCH /products/:id</code></h3>
-    <ul>
-      <li>Partially updates an existing product specified by <code>:id</code>
-        <ul>
-          <li>Swap <code>:id</code> for the id of the product you want to update</li>
-          <li>Only include the fields you want to update</li>
-        </ul>
-      </li>
-      <li>Will return a 200 status code if successful, along with the <code>product</code> JSON object that was updated</li>
-      <li>Will return a 400 error code if there are no updatable properties included: <code>name</code>, <code>price</code>, or <code>category</code></li>
-      <li>Example: <code>/products/3d3b63fa-a78d-468a-a50f-57429984dd99</code></li>
-    </ul>
-    <h4>Required Request Headers</h4>
-    <p><code>Content-Type: application/json</code></p>
-    <h4>PATCH Body Example</h4>
-    <pre><code class="lang-json">  {
-      <span class="hljs-attr">"price"</span>: <span class="hljs-string">299.99</span>,
-      <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Mobile Phones"</span>
+#### Required Request Headers
+
+`Content-Type: application/json`
+
+#### POST Body Example
+
+```
+  {
+    "name": "Book",
+    "price": 14.99,
+    "category": "Entertainment"
   }
-  </code></pre>
-    <h4>Response Body Example</h4>
-    <pre><code class="lang-json">  {
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Smartphone"</span>,
-    <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Mobile Phones"</span>,
-    <span class="hljs-attr">"price"</span>: <span class="hljs-string">299.99</span>,
-    <span class="hljs-attr">"id"</span>: <span class="hljs-number">"3d3b63fa-a78d-468a-a50f-57429984dd99"</span>,
+
+```
+
+#### Response Body Example
+
+```
+  {
+    "name": "Book",
+    "price": 14.99,
+    "category": "Entertainment",
+    "id": "3d3b63fa-a78d-468a-a50f-57429984dd99"
   }
-  </code></pre>
 
-  <hr>
+```
 
-  <h3><code>PUT /products/:id</code></h3>
-    <ul>
-      <li>Overwrites an existing product specified by <code>:id</code>
-        <ul>
-          <li>Swap <code>:id</code> for the id of the product you want to update</li>
-          <li>All fields must be included</li>
-        </ul>
-      </li>
-      <li>Will return a 200 status code if successful, along with the <code>product</code> JSON object that was updated</li>
-      <li>Will return a 400 error code if any updatable property is missing: <code>name</code>, <code>price</code>, or <code>category</code></li>
-      <li>Example: <code>/products/3d3b63fa-a78d-468a-a50f-57429984dd99</code></li>
-    </ul>
-    <h4>Required Request Headers</h4>
-    <p><code>Content-Type: application/json</code></p>
-    <h4>PATCH Body Example</h4>
-    <pre><code class="lang-json">  {
+---
 
-      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Flip Phone"</span>,
-      <span class="hljs-attr">"price"</span>: <span class="hljs-string">99.99</span>,
-      <span class="hljs-attr">"category"</span>: <span class="hljs-string">"Mobile Phones"</span>
+### `PATCH /products/:id`
 
-}
-</code></pre>
+- Partially updates an existing product specified by `:id`
+  - Swap `:id` for the id of the product you want to update
+  - Only include the fields you want to update
+- Will return a 200 status code if successful, along with the `product` JSON object that was updated
+- Will return a 400 error code if there are no updatable properties included: `name`, `price`, or `category`
+- Example: `/products/3d3b63fa-a78d-468a-a50f-57429984dd99`
 
-<h4>Response Body Example</h4>
-<pre><code class="lang-json"> {
-<span class="hljs-attr">"name"</span>: <span class="hljs-string">"Flip Phone"</span>,
-<span class="hljs-attr">"category"</span>: <span class="hljs-string">"Mobile Phones"</span>,
-<span class="hljs-attr">"price"</span>: <span class="hljs-string">99.99</span>,
-<span class="hljs-attr">"id"</span>: <span class="hljs-number">"3d3b63fa-a78d-468a-a50f-57429984dd99"</span>,
-}
-</code></pre>
+#### Required Request Headers
 
-  <hr>
+`Content-Type: application/json`
 
-  <h3><code>DELETE /products/:id</code></h3>
-  <ul>
-    <li>Deletes the product specified by <code>:id</code>. <ul>
-        <li>Swap <code>:id</code> for the id of the product you want to delete</li>
-      </ul>
-    </li>
-    <li>Will return a 204 status code if successful, indicating there is no content with that id</li>
-    <li>Will return a 404 error code if the product is not found</li>
-    <li>Example: <code>/products/3d3b63fa-a78d-468a-a50f-57429984dd99</code></li>
-  </ul>
-  <h4>Response Body Example</h4>
-  <pre><code class="lang-json">(Empty Response)</code></pre>
+#### PATCH Body Example
 
-</section>
+```
+  {
+      "price": 299.99,
+      "category": "Mobile Phones"
+  }
 
-<iframe id="SSlqtSbk" frameborder="0" src="chrome-extension://ekhagklcjbdpajgpjgmbionohlpdbjgc/translateSandbox/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body>
+```
+
+#### Response Body Example
+
+```
+  {
+    "name": "Smartphone",
+    "category": "Mobile Phones",
+    "price": 299.99,
+    "id": "3d3b63fa-a78d-468a-a50f-57429984dd99",
+  }
+
+```
+
+---
+
+### `PUT /products/:id`
+
+- Overwrites an existing product specified by `:id`
+  - Swap `:id` for the id of the product you want to update
+  - All fields must be included
+- Will return a 200 status code if successful, along with the `product` JSON object that was updated
+- Will return a 400 error code if any updatable property is missing: `name`, `price`, or `category`
+- Example: `/products/3d3b63fa-a78d-468a-a50f-57429984dd99`
+
+#### Required Request Headers
+
+`Content-Type: application/json`
+
+#### PATCH Body Example
+
+```
+  {
+
+      "name": "Flip Phone",
+      "price": 99.99,
+      "category": "Mobile Phones"
+  }
+
+```
+
+#### Response Body Example
+
+```
+  {
+    "name": "Flip Phone",
+    "category": "Mobile Phones",
+    "price": 99.99,
+    "id": "3d3b63fa-a78d-468a-a50f-57429984dd99",
+  }
+
+```
+
+---
+
+### `DELETE /products/:id`
+
+- Deletes the product specified by `:id`.
+  - Swap `:id` for the id of the product you want to delete
+- Will return a 204 status code if successful, indicating there is no content with that id
+- Will return a 404 error code if the product is not found
+- Example: `/products/3d3b63fa-a78d-468a-a50f-57429984dd99`
+
+#### Response Body Example
+
+```
+(Empty Response)
+```
