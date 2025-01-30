@@ -30,4 +30,25 @@ class ProductApi {
       console.log("error with getProducts!");
     }
   }
+
+  ////////////// Part 3: Create the Add Product functionality
+  // P3-Q1. In product-api.js, create a addProduct method within the ProductApi class:
+  // - P3-Q1-req1. Create an async method called addProduct that accepts a product object as its only parameter and sends a POST request with the product object to the /products endpoint of the provided Product API
+  //      -- P3-Q1-note. Remember to append the API key instance property (e.g. this.apiKey) to the endpoint URL's query string to authenticate the request. See the Product API documentation for more info.
+  // - P3-Q1-req2. The addProduct method should await the request and return the newly created product from the response.
+
+  // Creates a new product
+  async addProduct(product) {
+    try {
+      const responses = await axios.post(
+        `${this.baseURL}/products?api_key=${this.apiKey}`,
+        product
+      );
+      // Required Request Headers: Content-Type: application/json?
+      // axios gives it to us for free, don't need to manually set it
+      return responses.data;
+    } catch (error) {
+      console.log("error with addProduct!");
+    }
+  }
 }
