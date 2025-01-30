@@ -18,27 +18,56 @@ console.log("productApi instance", productApi);
 // - P2-Q2-req3. Also within the try block, validate the products were retrieved successfully by logging the products variable to the console.
 // - P2-Q2-req4. Within the catch block, log any errors from the API request using console.error
 
-async function testApiCalls() {
+// Function to test GET /products
+async function testGetProducts() {
   try {
-    // Test GET getProducts
     const products = await productApi.getProducts();
     console.log("productApi.getProducts()", products);
+  } catch (error) {
+    console.error("Error with getProducts:", error);
+  }
+}
 
-    // Test POST addProduct
-    const book = {
+// P3-Q2. In index.js update the testApiCalls function body to test the addProduct method:
+// - P3-Q2-req1. Add a new try...catch statement so that you can catch any errors from the API request.
+// - P3-Q2-req2. Within the new try block, call await productApi.addProduct(<new_product_object>) to add a product to the list of products.
+//      -- See the API documentation for the object structure to follow for the new product object.
+// - P3-Q2-req3. Also within the new try block, verify the product has been added:
+//      -- P3-Q1-req3i. Call await productApi.getProducts() after the addProduct call to retrieve the updated list of products, storing the result in a variable called newProducts
+//      -- P3-Q1-req3ii. Validate the products were retrieved successfully by logging to the console the newProducts variable
+//      -- P3-Q1-req3iii. Compare the products and newProducts variables in the console, noting the newProducts variable has the newly created product
+// - P3-Q2-req4. Within the catch block, log any errors from the API request using console.error
+
+// Function to test POST /products (add a new product)
+async function testAddProduct() {
+  try {
+    const newProduct = {
       name: "Book",
       price: 22.99,
       category: "Entertainment",
     };
-    const newProducts = await productApi.addProduct(book);
-    console.log("Added product:", newProducts);
+    const addedProduct = await productApi.addProduct(newProduct);
+    console.log("productApi.addProduct() - Added product:", addedProduct);
 
-    // Test GET getProductById (using the ID of the product we just added)
-    const productId = newProducts.id; // use the ID from the newly added product
-    const productById = await productApi.getProductById(productId);
-    console.log("productApi.getProductById()", productById);
+    return addedProduct.id; // Return the ID of the newly added product for further testing
+  } catch (error) {
+    console.error("Error with addProduct:", error);
+  }
+}
 
-    // Test PUT updateProduct (update the product's name and price)
+// Function to test GET /products/:id (get product by ID)
+async function testGetProductById(productId) {
+  try {
+    const product = await productApi.getProductById(productId);
+    console.log("productApi.getProductById()", product);
+  } catch (error) {
+    console.error("Error with getProductById:", error);
+  }
+}
+
+// Function to test PUT /products/:id (update product by ID)
+async function testUpdateProduct(productId) {
+  try {
     const updatedProduct = {
       name: "Updated Book",
       price: 29.99,
@@ -49,15 +78,27 @@ async function testApiCalls() {
       updatedProduct
     );
     console.log("productApi.updateProduct()", updatedProductResult);
+  } catch (error) {
+    console.error("Error with updateProduct:", error);
+  }
+}
 
-    // Test PATCH patchProduct (partially update the product's price)
+// Function to test PATCH /products/:id (partially update product by ID)
+async function testPatchProduct(productId) {
+  try {
     const patchData = {
-      price: 19.99,
+      price: 19.99, // Let's change the price
     };
     const patchedProduct = await productApi.patchProduct(productId, patchData);
     console.log("productApi.patchProduct()", patchedProduct);
+  } catch (error) {
+    console.error("Error with patchProduct:", error);
+  }
+}
 
-    // Test DELETE deleteProduct (delete the product by its ID)
+// Function to test DELETE /products/:id (delete product by ID)
+async function testDeleteProduct(productId) {
+  try {
     const deleteResponse = await productApi.deleteProduct(productId);
     console.log("productApi.deleteProduct() Response:", deleteResponse);
 
@@ -65,21 +106,32 @@ async function testApiCalls() {
     const deletedProduct = await productApi.getProductById(productId);
     console.log("productApi.getProductById() after delete:", deletedProduct);
   } catch (error) {
-    console.log("error with getProducts and addProduct!", error);
-    // Access to XMLHttpRequest at 'https://bstn-api-lab-f060f124aa11.herokuapp.com/?apiKey=c3d5a444-ce56-4c94-88b1-cc5687c101c3' from origin 'http://127.0.0.1:5501' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+    console.error("Error with deleteProduct:", error);
   }
+}
 
-  // P3-Q2. In index.js update the testApiCalls function body to test the addProduct method:
-  // - P3-Q2-req1. Add a new try...catch statement so that you can catch any errors from the API request.
-  // - P3-Q2-req2. Within the new try block, call await productApi.addProduct(<new_product_object>) to add a product to the list of products.
-  //      -- See the API documentation for the object structure to follow for the new product object.
-  // - P3-Q2-req3. Also within the new try block, verify the product has been added:
-  //      -- P3-Q1-req3i. Call await productApi.getProducts() after the addProduct call to retrieve the updated list of products, storing the result in a variable called newProducts
-  //      -- P3-Q1-req3ii. Validate the products were retrieved successfully by logging to the console the newProducts variable
-  //      -- P3-Q1-req3iii. Compare the products and newProducts variables in the console, noting the newProducts variable has the newly created product
-  // - P3-Q2-req4. Within the catch block, log any errors from the API request using console.error
+// Main function to call all the test functions in sequence
+async function testApiCalls() {
+  // Test GET /products
+  await testGetProducts();
+
+  // Test POST /products and get the ID of the added product
+  const productId = await testAddProduct();
+
+  // Test GET /products/:id (get the product we just added)
+  await testGetProductById(productId);
+
+  // Test PUT /products/:id (update the product we added)
+  await testUpdateProduct(productId);
+
+  // Test PATCH /products/:id (partially update the product)
+  await testPatchProduct(productId);
+
+  // Test DELETE /products/:id (delete the product we added)
+  await testDeleteProduct(productId);
 }
 
 // P2-Q3. Call the testApiCalls function to test the getProducts method is working correctly.
 // - Determine if the getProducts method returns what you expect. If not, try to investigate where things could be going wrong and remember to ask for help if you get stuck.
+// Call the main test function to execute the tests
 testApiCalls();
