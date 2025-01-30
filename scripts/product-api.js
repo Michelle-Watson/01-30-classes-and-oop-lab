@@ -51,4 +51,22 @@ class ProductApi {
       console.log("error with addProduct!");
     }
   }
+
+  // Diving Deeper
+  // GET /products/:id
+  // Fetch a single product by ID
+  async getProductById(productId) {
+    try {
+      const response = await axios.get(
+        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error with getProductById!");
+    }
+  }
+
+  // PUT /products/:id
+  // PATCH /products/:id
+  // DELETE /products/:id
 }
