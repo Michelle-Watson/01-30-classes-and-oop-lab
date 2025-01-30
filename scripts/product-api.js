@@ -10,6 +10,9 @@ class ProductApi {
     this.apiKey = apiKey;
     // Got url from:
     this.baseURL = "https://bstn-api-lab-f060f124aa11.herokuapp.com";
+
+    // Set the API key globally for all Axios requests
+    axios.defaults.params = { api_key: this.apiKey };
   }
 
   ////////////// Part 2: Create the Get Products functionality - Slide 19
@@ -21,10 +24,7 @@ class ProductApi {
 
   async getProducts() {
     try {
-      // From Oct 11 LEC
-      const responses = await axios.get(
-        `${this.baseURL}/products?api_key=${this.apiKey}`
-      );
+      const responses = await axios.get(`${this.baseURL}/products`);
       return responses.data;
     } catch (error) {
       console.log("error with getProducts!");
@@ -40,10 +40,7 @@ class ProductApi {
   // Creates a new product
   async addProduct(product) {
     try {
-      const responses = await axios.post(
-        `${this.baseURL}/products?api_key=${this.apiKey}`,
-        product
-      );
+      const responses = await axios.post(`${this.baseURL}/products`, product);
       // Required Request Headers: Content-Type: application/json?
       // axios gives it to us for free, don't need to manually set it
       return responses.data;
@@ -57,9 +54,7 @@ class ProductApi {
   // Fetch a single product by ID
   async getProductById(productId) {
     try {
-      const response = await axios.get(
-        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`
-      );
+      const response = await axios.get(`${this.baseURL}/products/${productId}`);
       return response.data;
     } catch (error) {
       console.log("Error with getProductById!");
@@ -71,7 +66,7 @@ class ProductApi {
   async updateProduct(productId, updatedProduct) {
     try {
       const response = await axios.put(
-        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`,
+        `${this.baseURL}/products/${productId}`,
         updatedProduct
       );
       return response.data;
@@ -86,7 +81,7 @@ class ProductApi {
   async patchProduct(productId, updatedFields) {
     try {
       const response = await axios.patch(
-        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`,
+        `${this.baseURL}/products/${productId}`,
         updatedFields
       );
       return response.data;
@@ -100,7 +95,7 @@ class ProductApi {
   async deleteProduct(productId) {
     try {
       const response = await axios.delete(
-        `${this.baseURL}/products/${productId}?api_key=${this.apiKey}`
+        `${this.baseURL}/products/${productId}`
       );
       return response.status === 204
         ? "Product deleted successfully"
