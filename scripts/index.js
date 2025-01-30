@@ -49,6 +49,13 @@ async function testApiCalls() {
       updatedProduct
     );
     console.log("productApi.updateProduct()", updatedProductResult);
+
+    // Test PATCH patchProduct (partially update the product's price)
+    const patchData = {
+      price: 19.99,
+    };
+    const patchedProduct = await productApi.patchProduct(productId, patchData);
+    console.log("productApi.patchProduct()", patchedProduct);
   } catch (error) {
     console.log("error with getProducts and addProduct!", error);
     // Access to XMLHttpRequest at 'https://bstn-api-lab-f060f124aa11.herokuapp.com/?apiKey=c3d5a444-ce56-4c94-88b1-cc5687c101c3' from origin 'http://127.0.0.1:5501' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
